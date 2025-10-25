@@ -1,0 +1,25 @@
+
+server:
+  port: 8080
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: booking
+          uri: lb://booking-service
+          predicates:
+            - Path=/api/bookings/**, /api/booking/**
+          filters:
+            - StripPrefix=1
+        - id: hotel
+          uri: lb://hotel-service
+          predicates:
+            - Path=/api/hotels/**, /api/rooms/**
+          filters:
+            - StripPrefix=1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+jwt:
+  secret: "supersecretjwtkeysupersecretjwtkey"
